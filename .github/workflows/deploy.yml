@@ -1,0 +1,62 @@
+# Nome do seu fluxo de trabalho
+name: Deploy to GitHub Pages
+
+on:
+  # Dispara o robô toda vez que você der 'push' na branch 'main'
+  push:
+    branches: ['main']
+    
+  # Permite que você rode este fluxo manualmente na aba "Actions"
+  workflow_dispatch:
+
+# Permissões que o robô precisa para publicar
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Configuração para evitar que vários deploys rodem ao mesmo tempo
+concurrency:
+  group: 'pages'
+  cancel-in-progress: false
+
+jobs:
+  # O trabalho de "deploy" (publicar)
+  deploy:
+    runs-on: ubuntu-latest # O robô vai usar um computador com Ubuntu (Linux)
+    steps:
+      # 1. Baixa o seu código para dentro do robô
+      - name: Checkout
+        uses: actions/checkout@v4
+        
+      # 2. Instala o Node.js (para o React/Vite funcionar)
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18 # Usando a versão 18 do Node
+          cache: 'npm'
+          
+      # 3. Instala todas as dependências do seu projeto
+      - name: Install dependencies
+        run: npm install
+        
+      # 4. Roda o script de "build"
+  
+      - name: Build
+        run: npm run build 
+        
+      # 5. Configura o GitHub Pages para receber os arquivos
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+        
+      # 6. Faz o upload dos arquivos "buildados" (da pasta 'dist')
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          # O Vite gera os arquivos na pasta 'dist' por padrão
+          path: './dist' 
+          
+      # 7. Publica o site
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
