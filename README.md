@@ -1,73 +1,72 @@
-# React + TypeScript + Vite
+MinhasFinanças é uma aplicação web moderna e inteligente para gestão financeira pessoal, desenvolvida com React, TypeScript e bibliotecas de visualização de dados de alto padrão.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+🎯 Principais Funcionalidades
+📊 Dashboard Inteligente
 
-Currently, two official plugins are available:
+KPIs em Tempo Real: Visualização instantânea de receitas, despesas, saldo e taxa de poupança
+Análise Visual: Gráficos interativos de distribuição orçamentária e tendências mensais
+Insights Automáticos: Sistema de análise que identifica problemas e oportunidades financeiras
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+💳 Controle de Despesas
 
-## React Compiler
+Gestão Completa: Adicione, edite e exclua despesas com facilidade
+Status de Pagamento: Marque contas como pagas ou pendentes
+Categorização: Organize gastos em 8 categorias principais
+Despesas Recorrentes: Identifique e gerencie gastos fixos mensais
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+🎯 Metas Financeiras
 
-## Expanding the ESLint configuration
+Objetivos Personalizados: Crie metas para fundo de emergência, viagens, investimentos, etc.
+Acompanhamento Visual: Barra de progresso e estatísticas detalhadas
+Cálculo Inteligente: Sistema calcula automaticamente o aporte mensal necessário
+Alertas de Prazo: Notificações para metas em risco de não serem cumpridas
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+🔄 Despesas Recorrentes
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+Aba Dedicada: Visualização isolada de todos os gastos fixos
+Análise de Comprometimento: Percentual da renda comprometida com gastos fixos
+Projeção Anual: Cálculo automático do impacto anual das despesas recorrentes
+Alertas Inteligentes: Notificação quando gastos fixos excedem 70% da receita
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+🧠 Insights Inteligentes
+O sistema analisa automaticamente seus dados e fornece:
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+⚠️ Alertas de déficit orçamentário
+📅 Avisos sobre despesas pendentes
+📈 Recomendações para aumentar taxa de poupança
+🔄 Análise de comprometimento com gastos fixos
+🎯 Alertas sobre metas em risco
+📊 Identificação de concentração de gastos
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+📥 Exportação de Relatórios
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+Geração de relatórios completos em formato texto
+Análise detalhada por categoria
+Histórico completo de transações
+Status de pagamento e metas financeiras
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+
+🛠️ Tecnologias Utilizadas
+Core
+
+React 18: Biblioteca JavaScript para construção de interfaces
+TypeScript: Superset JavaScript com tipagem estática
+Tailwind CSS: Framework CSS utility-first para estilização
+
+Visualização de Dados
+
+Recharts: Biblioteca de gráficos responsivos
+
+Gráfico de Pizza (distribuição por categoria)
+Gráfico de Linha (tendências mensais)
+
+
+
+Ícones & UI
+
+Lucide React: Biblioteca de ícones moderna e leve
+Design System personalizado com gradientes e glassmorphism
+
+Persistência
+
+LocalStorage API: Armazenamento local dos dados do usuário
