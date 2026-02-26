@@ -1,4 +1,4 @@
-MinhasFinanças é uma aplicação web moderna e inteligente para gestão financeira pessoal, desenvolvida com React, TypeScript e bibliotecas de visualização de dados de alto padrão.
+MinhasFinanças é uma aplicação mobile moderna e inteligente para gestão financeira pessoal, desenvolvida com React, TypeScript e bibliotecas de visualização de dados de alto padrão.
 
 🎯 Principais Funcionalidades
 📊 Dashboard Inteligente
