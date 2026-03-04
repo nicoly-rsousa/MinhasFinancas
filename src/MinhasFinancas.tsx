@@ -9,8 +9,6 @@ import {
     type LucideIcon 
 } from 'lucide-react';
 
-// --- Definições de Tipo (Interfaces) ---
-
 interface IExpense {
   id: number;
   name: string;
@@ -21,13 +19,13 @@ interface IExpense {
 
 interface INewExpense {
   name: string;
-  amount: string; // Inputs de formulário são strings
+  amount: string; 
   category: string;
 }
 
 interface IEditForm {
   name: string;
-  amount: string; // Inputs de formulário são strings
+  amount: string; 
   category: string;
 }
 
@@ -37,14 +35,14 @@ interface IInsight {
   type: 'alert' | 'warning' | 'success' | 'info';
   title: string;
   message: string;
-  icon: LucideIcon; // O tipo que você usou (LucideIcon) está ótimo
+  icon: LucideIcon; 
   color: InsightColor;
 }
 
 interface ICategoryData {
     name: string;
     value: number;
-    [key: string]: any; // Correção para o erro do Recharts (Pie)
+    [key: string]: any; 
 }
 
 interface IMonthlyData {
@@ -52,14 +50,11 @@ interface IMonthlyData {
     receita: number;
     despesa: number;
     economia: number;
-    [key: string]: any; // Correção para o erro do Recharts (Legend)
+    [key: string]: any; 
 }
 
-// --- Componente Principal ---
+const MinhasFinancas: React.FC = () => { 
 
-const MinhasFinancas: React.FC = () => { // Usando React.FC para clareza
-
-  // Voltando a usar o localStorage para salvar os dados
   const [salary, setSalary] = useState<number>(() => {
     const savedSalary = localStorage.getItem('minhasFinancas-salary');
     return savedSalary ? JSON.parse(savedSalary) : 5000;
@@ -84,7 +79,6 @@ const MinhasFinancas: React.FC = () => { // Usando React.FC para clareza
     return savedGoal ? JSON.parse(savedGoal) : 1000;
   });
 
-  // Efeitos para salvar dados no localStorage
   useEffect(() => {
     localStorage.setItem('minhasFinancas-salary', JSON.stringify(salary));
   }, [salary]);
@@ -97,11 +91,9 @@ const MinhasFinancas: React.FC = () => { // Usando React.FC para clareza
     localStorage.setItem('minhasFinancas-savingsGoal', JSON.stringify(savingsGoal));
   }, [savingsGoal]);
 
-
   const categories: string[] = ['Moradia', 'Alimentação', 'Transporte', 'Saúde', 'Lazer', 'Educação', 'Investimentos', 'Outros'];
   const COLORS: string[] = ['#6366f1', '#8b5cf6', '#ec4899', '#f59e0b', '#10b981', '#3b82f6', '#14b8a6', '#ef4444'];
 
-  // Cálculos
   const totalExpenses = expenses.reduce((sum, exp) => sum + exp.amount, 0);
   const remaining = salary - totalExpenses;
   const percentageUsed = salary > 0 ? ((totalExpenses / salary) * 100).toFixed(1) : "0.0";
@@ -142,10 +134,10 @@ const MinhasFinancas: React.FC = () => { // Usando React.FC para clareza
   };
 
   const addExpense = () => {
-    const amount = parseFloat(newExpense.amount); // newExpense.amount é string
+    const amount = parseFloat(newExpense.amount);
     if (newExpense.name && !isNaN(amount) && amount > 0) {
       const expenseToAdd: IExpense = {
-        id: Date.now(), // Usando Date.now() para garantir ID único
+        id: Date.now(),
         name: newExpense.name,
         amount: amount,
         category: newExpense.category,
@@ -166,19 +158,19 @@ const MinhasFinancas: React.FC = () => { // Usando React.FC para clareza
     setEditingId(expense.id);
     setEditForm({ 
       name: expense.name, 
-      amount: String(expense.amount), // Converte para string para o formulário
+      amount: String(expense.amount),
       category: expense.category 
     });
   };
 
   const saveEdit = (id: number) => {
-    const amount = parseFloat(editForm.amount); // editForm.amount é string
+    const amount = parseFloat(editForm.amount);
     if (editForm.name && !isNaN(amount) && amount > 0) {
         setExpenses(expenses.map(exp => 
           exp.id === id ? { 
             ...exp, 
             name: editForm.name, 
-            amount: amount, // Converte de volta para number
+            amount: amount,
             category: editForm.category 
           } : exp
         ));
@@ -225,7 +217,6 @@ ${expenses.map(exp =>
     URL.revokeObjectURL(url);
   };
 
-  // Handlers de input
   const handleSalaryChange = (e: ChangeEvent<HTMLInputElement>) => {
     setSalary(parseFloat(e.target.value) || 0);
   };
@@ -244,13 +235,18 @@ ${expenses.map(exp =>
     setEditForm(prev => ({ ...prev, [name]: value }));
   };
 
+  // CORREÇÃO: função separada para o label do Pie
+  const renderPieLabel = (props: any) => {
+    const { name, percent } = props;
+    return `${name} ${(percent * 100).toFixed(0)}%`;
+  };
+
   const insights = generateInsights();
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50">
-      {/* Header Premium */}
+<div className="min-h-screen w-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50">
       <header className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-2xl">
-        <div className="max-w-7xl mx-auto px-4 md:px-6 py-6">
+        <div className="w-full px-4 md:px-6 py-6">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
               <div className="bg-white/20 backdrop-blur-sm p-3 rounded-xl">
@@ -272,8 +268,7 @@ ${expenses.map(exp =>
         </div>
       </header>
 
-      <div className="max-w-7xl mx-auto p-4 md:p-6">
-        {/* Insights Inteligentes */}
+      <div className="w-full p-4 md:p-6">
         {insights.length > 0 && (
           <div className="mb-6 space-y-3">
             {insights.map((insight, idx) => {
@@ -299,14 +294,12 @@ ${expenses.map(exp =>
           </div>
         )}
 
-        {/* Dashboard Principal */}
         <div className="bg-white rounded-2xl shadow-xl p-4 md:p-8 mb-6">
           <div className="mb-6">
             <h2 className="text-2xl font-bold text-gray-800">Dashboard de Performance</h2>
             <p className="text-gray-600 text-sm">Análise automatizada em tempo real</p>
           </div>
 
-          {/* KPIs Principais */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
             <div className="bg-gradient-to-br from-indigo-500 to-indigo-600 rounded-xl p-6 text-white shadow-lg">
               <div className="flex items-center justify-between mb-2">
@@ -316,7 +309,6 @@ ${expenses.map(exp =>
               <p className="text-3xl font-bold mb-1">R$ {salary.toLocaleString('pt-BR', {minimumFractionDigits: 2})}</p>
               <p className="text-xs opacity-75">Base para análise</p>
             </div>
-            {/* ... Outros KPIs ... */}
             <div className="bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl p-6 text-white shadow-lg">
               <div className="flex items-center justify-between mb-2">
                 <span className="text-sm opacity-90 font-medium">Despesas Totais</span>
@@ -343,7 +335,6 @@ ${expenses.map(exp =>
             </div>
           </div>
 
-          {/* Configurações */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8 bg-gray-50 rounded-xl p-6">
             <div>
               <label className="block text-sm font-semibold text-gray-700 mb-2">
@@ -370,7 +361,6 @@ ${expenses.map(exp =>
           </div>
         </div>
 
-        {/* Análise Visual */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
           <div className="bg-white rounded-2xl shadow-xl p-6">
             <h2 className="text-xl font-bold text-gray-800 mb-4">Distribuição Orçamentária</h2>
@@ -382,12 +372,12 @@ ${expenses.map(exp =>
                   cx="50%"
                   cy="50%"
                   labelLine={false}
-                  label={({ name, percent }: { name: string, percent: number }) => `${name} ${(percent * 100).toFixed(0)}%`}
+                  label={renderPieLabel}
                   outerRadius={100}
                   fill="#8884d8"
                   dataKey="value"
                 >
-                  {categoryData.map((entry, index) => (
+                  {categoryData.map((_entry, index) => (
                     <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                   ))}
                 </Pie>
@@ -414,7 +404,6 @@ ${expenses.map(exp =>
           </div>
         </div>
 
-        {/* Gestão de Despesas */}
         <div className="bg-white rounded-2xl shadow-xl p-6 mb-6">
           <h2 className="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2">
             <Plus className="w-6 h-6 text-indigo-600" />
@@ -423,7 +412,7 @@ ${expenses.map(exp =>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
             <input
               type="text"
-              name="name" // Adicionado 'name'
+              name="name"
               value={newExpense.name}
               onChange={handleNewExpenseChange}
               className="px-4 py-2 border-2 border-gray-200 rounded-lg focus:outline-none focus:border-indigo-500 transition-colors"
@@ -431,14 +420,14 @@ ${expenses.map(exp =>
             />
             <input
               type="number"
-              name="amount" // Adicionado 'name'
+              name="amount"
               value={newExpense.amount}
               onChange={handleNewExpenseChange}
               className="px-4 py-2 border-2 border-gray-200 rounded-lg focus:outline-none focus:border-indigo-500 transition-colors"
               placeholder="Valor (R$)"
             />
             <select
-              name="category" // Adicionado 'name'
+              name="category"
               value={newExpense.category}
               onChange={handleNewExpenseChange}
               className="px-4 py-2 border-2 border-gray-200 rounded-lg focus:outline-none focus:border-indigo-500 transition-colors"
@@ -457,7 +446,6 @@ ${expenses.map(exp =>
           </div>
         </div>
 
-        {/* Lista de Transações */}
         <div className="bg-white rounded-2xl shadow-xl p-6">
           <h2 className="text-xl font-bold text-gray-800 mb-4">Histórico de Transações</h2>
           <p className="text-sm text-gray-600 mb-4">Análise detalhada de todas as movimentações</p>
@@ -472,20 +460,20 @@ ${expenses.map(exp =>
                     <div className="flex flex-col md:flex-row gap-3 flex-1 w-full mb-3 md:mb-0">
                       <input
                         type="text"
-                        name="name" // Adicionado 'name'
+                        name="name"
                         value={editForm.name}
                         onChange={handleEditFormChange}
                         className="px-3 py-1 border-2 border-indigo-200 rounded-lg flex-1"
                       />
                       <input
                         type="number"
-                        name="amount" // Adicionado 'name'
+                        name="amount"
                         value={editForm.amount}
                         onChange={handleEditFormChange}
                         className="px-3 py-1 border-2 border-indigo-200 rounded-lg w-full md:w-32"
                       />
                       <select
-                        name="category" // Adicionado 'name'
+                        name="category"
                         value={editForm.category}
                         onChange={handleEditFormChange}
                         className="px-3 py-1 border-2 border-indigo-200 rounded-lg w-full md:w-auto"
@@ -540,7 +528,6 @@ ${expenses.map(exp =>
           </div>
         </div>
 
-        {/* Footer */}
         <div className="mt-8 text-center text-gray-600 text-sm bg-white rounded-xl p-4">
           <p className="font-semibold">MinhasFinanças - Inteligência Financeira Digital</p>
           <p className="mt-1">Relatórios automatizados • Análise preditiva • Decisões estratégicas baseadas em dados</p>
@@ -548,8 +535,6 @@ ${expenses.map(exp =>
       </div>
     </div>
   );
-}; // <--- FECHAMENTO DA FUNÇÃO NO LUGAR CORRETO
+};
 
-export default MinhasFinancas; // <--- EXPORT FORA DA FUNÇÃO
-
-// Não há mais nada depois desta linha
+export default MinhasFinancas;
